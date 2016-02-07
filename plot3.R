@@ -1,0 +1,13 @@
+dt = read.csv("household_power_consumption.txt", sep = ";")
+dt$Date <- as.character(dt$Date)
+dt$Date <- as.Date(dt$Date, "%d/%m/%Y")
+dt$Global_active_power <- as.character(dt$Global_active_power)
+dt$Global_active_power <- as.numeric(dt$Global_active_power)
+sdt <- dt[dt$Date >= as.Date("2007-02-01") & dt$Date  <= as.Date("2007-02-02"),]
+sdt$Date <- as.POSIXct(paste(sdt$Date, sdt$Time), format="%Y-%m-%d %H:%M:%S")
+png("plot3.png" , width = 480 , height = 480)
+plot(sdt$Date , sdt$Sub_metering_1 , xlab = "Day" , ylab = "Energy Sub metering" , type = "l")
+points(sdt$Date, sdt$Sub_metering_2, type = "l" , col = "red" )
+points(sdt$Date, sdt$Sub_metering_3, type = "l" , col = "blue" )
+legend("topright" , pch = "_____" , col = c("black", "red" , "blue"), legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_2"))
+dev.off()
